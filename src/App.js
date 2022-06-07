@@ -31,26 +31,28 @@ var datum = [{
     "value": 30,
 }];
 var i = 0;
-
+// console.log(datum[0].name)
 function App() {
     const [data, setData] = useState([]);
 
     // Code Ended
 
     useEffect(() => {
+        alert('use effect called')
         changeData();
     }, []);
 
     const changeData = () => {
         setData(datum[i++]);
+        console.log(data);
         if (i === datum.length) i = 0;
     }
 
-
+    console.log("data useState: ",data)
     return (
         <div className="App">
             <h2>Graphs with React</h2>
-            {/* <button onClick={changeData}>Change Data</button> */}
+            <button onClick={changeData}>Change Data</button>
             <BarChart width={600} height={400} data={data} />
         </div>
     );

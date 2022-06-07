@@ -4,8 +4,7 @@ import React, { useRef, useEffect } from 'react';
 
 
 function BarChart({ width, height, data }) {
-    // console.log(d3)
-
+    console.log(data[0].value);
     const ref = useRef();
     // Code Added
 
@@ -32,9 +31,9 @@ function BarChart({ width, height, data }) {
 
     var x = d3.scaleLinear()
         .range([0, width])
-        .domain([0, d3.max(data.value, function (d) {
-            console.log(d);
-            return d;
+        .domain([0, d3.max(data, function (d,i) {
+            console.log(d[i].value);
+            return d[i].value;
         })]);
 
     var y = d3.scaleBand()
