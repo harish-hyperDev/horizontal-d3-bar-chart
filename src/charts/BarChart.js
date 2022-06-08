@@ -4,7 +4,9 @@ import React, { useRef, useEffect } from 'react';
 
 
 function BarChart({ width, height, data }) {
-    // console.log(d3)
+
+    
+    console.log(data[0])
 
     const ref = useRef();
     // Code Added
@@ -21,6 +23,10 @@ function BarChart({ width, height, data }) {
         left: 60
     };
 
+    data = data.sort(function (a, b) {
+        return d3.ascending(a.value, b.value);
+    })
+
     var width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -30,12 +36,11 @@ function BarChart({ width, height, data }) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    let xd = d3.max(data, d => d.value);
+    // console.log(xd)
     var x = d3.scaleLinear()
         .range([0, width])
-        .domain([0, d3.max(data.value, function (d) {
-            console.log(d);
-            return d;
-        })]);
+        .domain([0, d3.max(data, d => d.value)]);
 
     var y = d3.scaleBand()
         .rangeRound([height, 0], .1)
@@ -89,50 +94,50 @@ function BarChart({ width, height, data }) {
         // Code Ended
 
 
-    useEffect(() => {
-        const svg = d3.select(ref.current)
-            .attr("width", width)
-            .attr("height", height)
-            .style("border", "1px solid black")
-    }, []);
+    // useEffect(() => {
+    //     const svg = d3.select(ref.current)
+    //         .attr("width", width)
+    //         .attr("height", height)
+    //         .style("border", "1px solid black")
+    // }, []);
 
-    useEffect(() => {
-        draw();
-    }, [data]);
+    // useEffect(() => {
+    //     draw();
+    // }, [data]);
 
-    const draw = () => {
+    // const draw = () => {
 
-        const svg = d3.select(ref.current);
-        var selection = svg.selectAll("rect").data(data);
-        // var yScale = d3.scaleLinear()
-        var yScale = d3.scaleLinear()
-            .domain([0, d3.max(data)])
-            .range([0, height - 100]);
+    //     const svg = d3.select(ref.current);
+    //     var selection = svg.selectAll("rect").data(data);
+    //     // var yScale = d3.scaleLinear()
+    //     var yScale = d3.scaleLinear()
+    //         .domain([0, d3.max(data)])
+    //         .range([0, height - 100]);
 
-        selection
-            .transition().duration(300)
-            .attr("height", (d) => yScale(d))
-            .attr("y", (d) => height - yScale(d))
+    //     selection
+    //         .transition().duration(300)
+    //         .attr("height", (d) => yScale(d))
+    //         .attr("y", (d) => height - yScale(d))
 
-        selection
-            .enter()
-            .append("rect")
-            .attr("x", (d, i) => i * 45)
-            .attr("y", (d) => height)
-            .attr("width", 40)
-            .attr("height", 0)
-            .attr("fill", "orange")
-            .transition().duration(300)
-            .attr("height", (d) => yScale(d))
-            .attr("y", (d) => height - yScale(d))
+    //     selection
+    //         .enter()
+    //         .append("rect")
+    //         .attr("x", (d, i) => i * 45)
+    //         .attr("y", (d) => height)
+    //         .attr("width", 40)
+    //         .attr("height", 0)
+    //         .attr("fill", "orange")
+    //         .transition().duration(300)
+    //         .attr("height", (d) => yScale(d))
+    //         .attr("y", (d) => height - yScale(d))
 
-        selection
-            .exit()
-            .transition().duration(300)
-            .attr("y", (d) => height)
-            .attr("height", 0)
-            .remove()
-    }
+    //     selection
+    //         .exit()
+    //         .transition().duration(300)
+    //         .attr("y", (d) => height)
+    //         .attr("height", 0)
+    //         .remove()
+    // }
 
 
     return (
