@@ -33,6 +33,7 @@ function App() {
     // Code Ended
 
     useEffect(() => {
+        alert('use effect called')
         changeData();
     }, []);
 
